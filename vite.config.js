@@ -5,15 +5,18 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     server: {
         hmr: {
-            host: 'localhost',
-            protocol: 'ws'
+            host: 'localhost'
         },
-        host: true,
+        host: '0.0.0.0',
         port: 5173,
         strictPort: true,
         watch: {
             usePolling: true
         }
+    },
+    build: {
+        chunkSizeWarningLimit: 1600,
+        outDir: 'public/build',
     },
     plugins: [
         laravel({
@@ -35,7 +38,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': '/resources/js',
-            '~': '/resources'
+            '~': '/resources',
+            'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
         }
     }
 });
