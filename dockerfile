@@ -9,9 +9,11 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     npm \
-    nodejs
+    nodejs \
+    sqlite3 \
+    libsqlite3-dev
 
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-install pdo_mysql pdo_sqlite mbstring zip exif pcntl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
