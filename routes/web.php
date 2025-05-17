@@ -30,7 +30,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
 });
 
-Route::post('/mensagem', function () {
+Route::post('/api/mensagem', function () {
     $data = request()->all();
 
     $message = new Message();
