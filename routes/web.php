@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Message;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -25,10 +26,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
 });
+
+Route::post('/mensagem', function () {
+    $data = request()->all();
+
+    $message = new Message();
+    $message->from = $data['from'];
+    $message->type = $data['type'];
+    $message->content = $data['content'];
+    $message->timestamp = $data['timestamp'];
+    $message->sender = $data['sender'];
+    $message->isGroup = $data['isGroup'] ?? false;
+    $message->fromMe = $data['fromMe'] ?? false;
+    $message->save();
+
+    return response()->json(['message' => 'recebida!']);
+})->name('mensagem');
 
 require __DIR__.'/auth.php';
